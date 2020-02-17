@@ -52,6 +52,116 @@ app.post('/testimonials', (req, res) => {
     res.json({ message: 'OK' });
   });
 
+
+
+
+
+
+  app.get('/concerts', (req, res) => {
+    res.json(db.concerts);
+});
+
+// app.get('/concerts/random', (req, res) => {
+//     const random = db.concerts[Math.floor(Math.random() * db.concerts.length)];
+//     res.json(random);
+// });
+
+app.get('/concerts/:id', (req, res) => {
+    const user = db.concerts.find(u => u.id == req.params.id)
+    res.json(user);
+});
+
+app.post('/concerts', (req, res) => {
+    const { performer, genre, price, day, image } = req.body;
+        id = uuidv4();
+    const newElement = { id: id, performer: performer, genre: genre, price: price, day: day, image: image };
+    db.concerts.push(newElement);
+    res.json({ message: 'OK' });
+  });
+
+  app.put('/concerts/:id', (req, res) => {
+    const { performer, genre, price, day, image } = req.body;
+    const id = req.params.id;
+    const newElement = { id: id, performer: performer, genre: genre, price: price, day: day, image: image };
+    
+    for (let element of db.concerts) {
+        if (element.id == id) {
+            db.concerts.splice(db.concerts.indexOf(element), 1, newElement);
+        }
+    }
+    res.json({ message: 'OK' });
+  });
+
+  app.delete('/concerts/:id', (req, res) => {
+    const id = req.params.id;
+    
+    for (let element of db.concerts) {
+        if (element.id == id) {
+            db.concerts.splice(db.concerts.indexOf(element), 1);
+        }
+    }
+    res.json({ message: 'OK' });
+  });
+
+
+
+
+
+
+
+  app.get('/seats', (req, res) => {
+    res.json(db.seats);
+});
+
+// app.get('/seats/random', (req, res) => {
+//     const random = db.seats[Math.floor(Math.random() * db.seats.length)];
+//     res.json(random);
+// });
+
+app.get('/seats/:id', (req, res) => {
+    const user = db.seats.find(u => u.id == req.params.id)
+    res.json(user);
+});
+
+app.post('/seats', (req, res) => {
+    const { day, seats, client, email } = req.body;
+        id = uuidv4();
+    const newElement = { id: id, day: day, seats: seats, client: client, email: email };
+    db.seats.push(newElement);
+    res.json({ message: 'OK' });
+  });
+
+  app.put('/seats/:id', (req, res) => {
+    const { day, seats, client, email } = req.body;
+    const id = req.params.id;
+    const newElement = { id: id, day: day, seats: seats, client: client, email: email };
+    
+    for (let element of db.seats) {
+        if (element.id == id) {
+            db.seats.splice(db.seats.indexOf(element), 1, newElement);
+        }
+    }
+    res.json({ message: 'OK' });
+  });
+
+  app.delete('/seats/:id', (req, res) => {
+    const id = req.params.id;
+    
+    for (let element of db.seats) {
+        if (element.id == id) {
+            db.seats.splice(db.seats.indexOf(element), 1);
+        }
+    }
+    res.json({ message: 'OK' });
+  });
+
+
+
+
+
+
+
+
   app.use((req, res) => {
     res.status(404).send({ message: 'Not found...' });
   })
