@@ -5,6 +5,9 @@
   "repository": "git@github.com:WiesiaBryzik/Express-REST-API.git",
   "author": "Wiesława Bryzik <wieslawa.bryzik@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
   "dependencies": {
     "express": "4.17.1",
     "nodemon": "2.0.2",
