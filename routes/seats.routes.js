@@ -20,16 +20,25 @@ router.route('/seats/:id').get((req, res) => {
 
 router.route('/seats').post((req, res) => {
     const { day, seat, client, email } = req.body;
-            id = uuidv4();
+    id = uuidv4();
+    // function avaliable(element) {
+    //     if (element.day === day && element.seat === seat) {
+    //         return res.status(409).send({ message: 'The slot is already taken...' });
+    //     } 
+    //         const newElement = { id: id, day: day, seat: seat, client: client, email: email };
+    //         db.seats.push(newElement);
+    //         return res.json({ message: 'OK' });
+    // }
+    // db.seats.some(avaliable);
+
     for (let element of db.seats) {
-        if (element.day == day && element.seat == seat) {
-            return res.status(409).send({ message: 'The slot is already taken...' });
-        } else {            
-            const newElement = { id: id, day: day, seat: seat, client: client, email: email };
-            db.seats.push(newElement);
-            return res.json({ message: 'OK' });
+        if (element.seat == seat && element.day == day) {
+            res.status(409).send({ message: 'The slot is already taken...' });
         }
     }
+    const newElement = { id: id, day: day, seat: seat, client: client, email: email };
+    db.seats.push(newElement);
+    res.json({ message: 'OK' });
 });
 
 router.route('/seats/:id').put((req, res) => {
