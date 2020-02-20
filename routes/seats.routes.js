@@ -19,17 +19,23 @@ router.route('/seats/:id').get((req, res) => {
 });
 
 router.route('/seats').post((req, res) => {
-    const { day, seats, client, email } = req.body;
-    id = uuidv4();
-    const newElement = { id: id, day: day, seats: seats, client: client, email: email };
-    db.seats.push(newElement);
-    res.json({ message: 'OK' });
+    const { day, seat, client, email } = req.body;
+            id = uuidv4();
+    for (let element of db.seats) {
+        if (element.day == day && element.seat == seat) {
+            return res.status(409).send({ message: 'The slot is already taken...' });
+        } else {            
+            const newElement = { id: id, day: day, seat: seat, client: client, email: email };
+            db.seats.push(newElement);
+            return res.json({ message: 'OK' });
+        }
+    }
 });
 
 router.route('/seats/:id').put((req, res) => {
-    const { day, seats, client, email } = req.body;
+    const { day, seat, client, email } = req.body;
     const id = req.params.id;
-    const newElement = { id: id, day: day, seats: seats, client: client, email: email };
+    const newElement = { id: id, day: day, seat: seat, client: client, email: email };
 
     for (let element of db.seats) {
         if (element.id == id) {
