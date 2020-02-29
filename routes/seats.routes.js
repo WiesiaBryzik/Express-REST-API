@@ -38,6 +38,8 @@ router.route('/seats').post((req, res) => {
     }
     const newElement = { id: id, day: day, seat: seat, client: client, email: email };
     db.seats.push(newElement);
+    
+    req.io.emit('seatsUpdated', db.seats);    
     res.json({ message: 'OK' });
 });
 

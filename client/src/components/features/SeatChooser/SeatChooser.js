@@ -23,13 +23,11 @@ class SeatChooser extends React.Component {
       this.socket = io.connect('http://localhost:8000');
     }
 
-    const { loadSeats } = this.props;
+    const { loadSeats, loadSeatsData } = this.props;
     loadSeats();
-    this.startInterval();
-  }
-
-  componentWillUnmount() {
-    this.stopInterval();
+    this.socket.on('seatsUpdated', seats => {
+      loadSeatsData(seats);
+    })
   }
 
   isTaken = (seatId) => {

@@ -8,6 +8,12 @@ const path = require('path');
 const socket = require('socket.io');
 
 // Serve static files from the React app
+
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
+
 app.use(express.static(path.join(__dirname, '/client/build')));
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
