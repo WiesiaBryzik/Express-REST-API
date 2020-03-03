@@ -1,71 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const db = require('./../db');
-const uuidv4 = require('uuid/v4');
 
+const SeatController = require('../controllers/seats.controller');
 
-router.route('/seats').get((req, res) => {
-    res.json(db.seats);
-});
+router.get('/seats', SeatController.getAll);
+router.get('/seats/:id', SeatController.getId);
+router.post('/seats', SeatController.postNew);
+router.put('/seats/:id', SeatController.putId);
+router.delete('/seats/:id', SeatController.deleteId);
 
-// router.route('/seats/random').get((req, res) => {
-//     const random = db.seats[Math.floor(Math.random() * db.seats.length)];
-//     res.json(random);
-// });
-
-router.route('/seats/:id').get((req, res) => {
-    const user = db.seats.find(u => u.id == req.params.id)
-    res.json(user);
-});
-
-router.route('/seats').post((req, res) => {
-    const { day, seat, client, email } = req.body;
-    id = uuidv4();
-    // function avaliable(element) {
-    //     if (element.day === day && element.seat === seat) {
-    //         return res.status(409).send({ message: 'The slot is already taken...' });
-    //     } 
-    //         const newElement = { id: id, day: day, seat: seat, client: client, email: email };
-    //         db.seats.push(newElement);
-    //         return res.json({ message: 'OK' });
-    // }
-    // db.seats.some(avaliable);
-
-    for (let element of db.seats) {
-        if (element.seat == seat && element.day == day) {
-            res.status(409).send({ message: 'The slot is already taken...' });
-        }
-    }
-    const newElement = { id: id, day: day, seat: seat, client: client, email: email };
-    db.seats.push(newElement);
-    
-    req.io.emit('seatsUpdated', db.seats);    
-    res.json({ message: 'OK' });
-});
-
-router.route('/seats/:id').put((req, res) => {
-    const { day, seat, client, email } = req.body;
-    const id = req.params.id;
-    const newElement = { id: id, day: day, seat: seat, client: client, email: email };
-
-    for (let element of db.seats) {
-        if (element.id == id) {
-            db.seats.splice(db.seats.indexOf(element), 1, newElement);
-        }
-    }
-    res.json({ message: 'OK' });
-});
-
-router.route('/seats/:id').delete((req, res) => {
-    const id = req.params.id;
-
-    for (let element of db.seats) {
-        if (element.id == id) {
-            db.seats.splice(db.seats.indexOf(element), 1);
-        }
-    }
-    res.json({ message: 'OK' });
-});
 
 
 module.exports = router;
