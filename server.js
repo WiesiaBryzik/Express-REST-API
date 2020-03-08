@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
 const socket = require('socket.io');
+const helmet = require('helmet');
 
 const testimonialsRoutes = require('./routes/testimonials.routes');
 const concertsRoutes = require('./routes/concerts.routes');
@@ -20,6 +21,7 @@ app.use(express.static(path.join(__dirname, '/client/build')));
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(helmet());
 
 app.use('/api', testimonialsRoutes);
 app.use('/api', concertsRoutes);
