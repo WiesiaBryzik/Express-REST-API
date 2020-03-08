@@ -1,4 +1,3 @@
-const expect = require('chai').expect;
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../../../server');
@@ -36,7 +35,7 @@ describe('GET /api/concerts', () => {
         const res = await request(server).get('/api/concerts/day/1');
         expect(res.status).to.be.equal(200);
         expect(res.body).to.be.an('array');
-        expect(res.body.length).to.be.equal(4);
+        expect(res.body.length).to.be.equal(5);
     });
 
 });
